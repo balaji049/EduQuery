@@ -11,8 +11,19 @@ const app = express();
 /* ================================
    MANUAL CORS (RENDER SAFE)
 ================================ */
+const allowedOrigins = [
+  "https://eduquery-frontend.onrender.com",
+  "https://eduquery-frontend-hjkb.onrender.com",
+  "http://localhost:3000",
+];
+
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://eduquery-frontend-hjkb.onrender.com");
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.header("Access-Control-Allow-Credentials", "true");
@@ -27,7 +38,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 /* ================================
-   RATE LIMITER (CHAT ONLY)
+   RATE LIMITER
 ================================ */
 const limiter = rateLimit({
   windowMs: 60 * 1000,
