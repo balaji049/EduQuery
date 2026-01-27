@@ -10,7 +10,7 @@ connectDB();
 const app = express();
 
 /* ================================
-   CORS CONFIG (CRITICAL FOR RENDER)
+   CORS CONFIG (RENDER SAFE)
 ================================ */
 app.use(
   cors({
@@ -19,13 +19,10 @@ app.use(
       "https://eduquery-frontend-hjkb.onrender.com",
     ],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-// Required for preflight requests
-app.options("*", cors());
 
 app.use(express.json());
 
@@ -33,7 +30,7 @@ app.use(express.json());
    RATE LIMITER (CHAT ONLY)
 ================================ */
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
+  windowMs: 60 * 1000,
   max: 30,
 });
 
@@ -48,7 +45,7 @@ app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/uploads", express.static("uploads"));
 
 /* ================================
-   SERVER START
+   START SERVER
 ================================ */
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
