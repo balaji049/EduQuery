@@ -21,7 +21,7 @@ export default function UserChat() {
   ========================= */
   const loadConversations = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/chat/conversations", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/chat/conversations`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -37,7 +37,7 @@ export default function UserChat() {
   const loadConversation = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/chat/conversation/${id}`,
+        `${process.env.REACT_APP_API_URL}/api/chat/conversation/${id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
@@ -52,7 +52,7 @@ export default function UserChat() {
      RENAME
   ========================= */
   const renameConversation = async (id) => {
-    await fetch(`http://localhost:5000/api/chat/conversation/${id}`, {
+    await fetch(`${process.env.REACT_APP_API_URL}/api/chat/conversation/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export default function UserChat() {
   const deleteConversation = async (id) => {
     if (!window.confirm("Delete this conversation?")) return;
 
-    await fetch(`http://localhost:5000/api/chat/conversation/${id}`, {
+    await fetch(`${process.env.REACT_APP_API_URL}/api/chat/conversation/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -103,7 +103,7 @@ export default function UserChat() {
     setMessages((prev) => [...prev, { role: "user", content: question }]);
 
     try {
-      const response = await fetch("http://localhost:5000/api/chat/ask", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/chat/ask`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

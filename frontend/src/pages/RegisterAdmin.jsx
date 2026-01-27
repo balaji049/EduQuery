@@ -16,7 +16,7 @@ export default function RegisterAdmin() {
      PROTECT MANUAL ACCESS
   ========================= */
   useEffect(() => {
-    fetch("http://localhost:5000/api/auth/register", {
+    fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
       method: "OPTIONS"
     })
       .then((res) => {
@@ -37,7 +37,7 @@ export default function RegisterAdmin() {
   const handleRegister = async () => {
     setError("");
 
-    const res = await fetch("http://localhost:5000/api/auth/register", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, role: "admin" })
