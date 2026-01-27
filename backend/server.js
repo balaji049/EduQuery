@@ -1,6 +1,5 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const cors = require("cors");
 const connectDB = require("./config/db");
 const rateLimit = require("express-rate-limit");
 
@@ -10,19 +9,20 @@ connectDB();
 const app = express();
 
 /* ================================
-   CORS CONFIG (RENDER SAFE)
+   MANUAL CORS (RENDER SAFE)
 ================================ */
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "https://eduquery-frontend-hjkb.onrender.com",
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://eduquery-frontend-hjkb.onrender.com");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 app.use(express.json());
 
@@ -41,8 +41,6 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/chat", limiter, require("./routes/chatRoutes"));
 app.use("/api/resources", require("./routes/resourceRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
-
-app.use("/uploads", express.static("uploads"));
 
 /* ================================
    START SERVER
