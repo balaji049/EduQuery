@@ -33,10 +33,10 @@ export default function LoginAdmin() {
     localStorage.setItem("token", data.token);
     localStorage.setItem("email", data.email);
     localStorage.setItem("role", data.role);
-    window.location.href = "/admin";
+    //window.location.href = "/admin";
 
     // 🚀 ADMIN REDIRECT
-    navigate("/admin");  
+    navigate("/admin"); 
   };
 
   return (
