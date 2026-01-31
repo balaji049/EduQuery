@@ -36,7 +36,7 @@ export default function LoginAdmin() {
     window.location.href = "/admin";
 
     // 🚀 ADMIN REDIRECT
-    navigate("/admin/dashboard");
+    //{/*navigate("/admin/dashboard");  */}
   };
 
   return (
