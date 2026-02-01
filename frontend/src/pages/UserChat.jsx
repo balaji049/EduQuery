@@ -257,23 +257,66 @@ export default function UserChat() {
             )}
 
             {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`mb-4 flex ${
-                  msg.role === "user" ? "justify-end" : "justify-start"
-                }`}
+  <div
+    key={i}
+    className={`mb-4 flex ${
+      msg.role === "user" ? "justify-end" : "justify-start"
+    }`}
+  >
+    <div
+      className={`p-4 rounded-lg max-w-[75%] text-sm leading-relaxed ${
+        msg.role === "user"
+          ? "bg-[#1D546D] text-white"
+          : "bg-[#E6EFF2] text-[#061E29]"
+      }`}
+    >
+      {/* USER MESSAGE */}
+      {msg.role === "user" && msg.content}
+
+      {/* AI MESSAGE — STRUCTURED */}
+      {msg.role === "assistant" &&
+        msg.content.split("\n").map((line, idx) => {
+          // Headings
+          if (line.endsWith(":")) {
+            return (
+              <h4
+                key={idx}
+                className="mt-3 mb-1 font-semibold text-[#1D546D]"
               >
-                <div
-                  className={`p-4 rounded-lg max-w-[75%] whitespace-pre-wrap ${
-                    msg.role === "user"
-                      ? "bg-[#1D546D] text-white"
-                      : "bg-[#E6EFF2] text-[#061E29]"
-                  }`}
-                >
-                  {msg.content}
-                </div>
-              </div>
-            ))}
+                {line}
+              </h4>
+            );
+          }
+
+          // Bullet points
+          if (line.startsWith("-")) {
+            return (
+              <li
+                key={idx}
+                className="ml-5 list-disc text-[#061E29]"
+              >
+                {line.replace("-", "").trim()}
+              </li>
+            );
+          }
+
+          // Empty line spacing
+          if (line.trim() === "") {
+            return <div key={idx} className="h-2" />;
+          }
+
+          // Normal paragraph
+          return (
+            <p key={idx} className="text-[#061E29]">
+              {line}
+            </p>
+          );
+        })}
+    </div>
+  </div>
+))}
+
+
 
             {loading && (
               <p className="text-sm text-[#5F9598] animate-pulse">

@@ -40,12 +40,19 @@ exports.askQuestion = async (req, res) => {
       .slice(0, 3000);
 
     const prompt = `
-Answer ONLY using this context:
-
+DOCUMENT CONTEXT:
 ${context}
 
-Question: ${question}
+USER QUESTION:
+${question}
+
+INSTRUCTIONS:
+- Answer strictly from the document context
+- Use clear headings and bullet points
+- Avoid long paragraphs
+- If the answer is not found, say: "This information is not available in the provided documents."
 `;
+
 
     /* ========= AI Call ========= */
     const answer = await askCloudflare(prompt);
