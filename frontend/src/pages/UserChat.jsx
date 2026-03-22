@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import StructuredMessage from "../components/StructuredMessage";
 import Navbar from "../components/Navbar";
 
 export default function UserChat() {
@@ -274,44 +275,20 @@ export default function UserChat() {
       {msg.role === "user" && msg.content}
 
       {/* AI MESSAGE — STRUCTURED */}
-      {msg.role === "assistant" &&
-        msg.content.split("\n").map((line, idx) => {
-          // Headings
-          if (line.endsWith(":")) {
-            return (
-              <h4
-                key={idx}
-                className="mt-3 mb-1 font-semibold text-[#1D546D]"
-              >
-                {line}
-              </h4>
-            );
-          }
-
-          // Bullet points
-          if (line.startsWith("-")) {
-            return (
-              <li
-                key={idx}
-                className="ml-5 list-disc text-[#061E29]"
-              >
-                {line.replace("-", "").trim()}
-              </li>
-            );
-          }
-
-          // Empty line spacing
-          if (line.trim() === "") {
-            return <div key={idx} className="h-2" />;
-          }
-
-          // Normal paragraph
-          return (
-            <p key={idx} className="text-[#061E29]">
-              {line}
-            </p>
-          );
-        })}
+{msg.role === "assistant" && (
+  <StructuredMessage
+    content={
+      (() => {
+        try {
+          const parsed = JSON.parse(msg.content);
+          return parsed.answer || msg.content;
+        } catch {
+          return msg.content;
+        }
+      })()
+    }
+  />
+)}
     </div>
   </div>
 ))}

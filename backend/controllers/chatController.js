@@ -40,17 +40,41 @@ exports.askQuestion = async (req, res) => {
       .slice(0, 3000);
 
     const prompt = `
+You are an AI assistant.
+
+Answer ONLY using the provided document context.
+
+STRICT RULES:
+- Do NOT use external knowledge
+- Do NOT hallucinate
+- If answer is missing, say clearly
+
+FORMAT STRICTLY IN MARKDOWN:
+
+## Summary
+(Short paragraph)
+
+## Key Points
+- Point 1
+- Point 2
+- Point 3
+
+## Details
+(Explanation)
+
+## Important Notes
+- Note 1
+- Note 2
+
+IMPORTANT:
+- ALWAYS use "-" for bullet points
+- NEVER return plain lines under Key Points
+
 DOCUMENT CONTEXT:
 ${context}
 
 USER QUESTION:
 ${question}
-
-INSTRUCTIONS:
-- Answer strictly from the document context
-- Use clear headings and bullet points
-- Avoid long paragraphs
-- If the answer is not found, say: "This information is not available in the provided documents."
 `;
 
 
