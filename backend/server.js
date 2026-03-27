@@ -13,6 +13,7 @@ const app = express();
 ================================ */
 const allowedOrigins = [
   "https://eduquery-frontend.onrender.com",
+  "https://eduquery-ai.vercel.app",
   "https://eduquery-frontend-hjkb.onrender.com",
   "http://localhost:3000",
 ];
